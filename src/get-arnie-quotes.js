@@ -5,20 +5,20 @@ const getArnieQuotes = async (urls) => {
   for (let url of urls) {
     funcArr.push(httpGet(url));
   }
-  const promiseResponses = await Promise.all(funcArr);
-  return processPromise(promiseResponses);
+  const responses = await Promise.all(funcArr);
+  return processResponse(responses);
 };
 
-const processPromise = (promiseResponses) => {
+const processResponse = (responses) => {
   const results = [];
-  for (let promiseRes of promiseResponses) {
-    if (promiseRes.status === 200) {
+  for (let res of responses) {
+    if (res.status === 200) {
       results.push({
-        'Arnie Quote': JSON.parse(promiseRes.body)?.message
+        'Arnie Quote': JSON.parse(res.body)?.message
       })
     } else {
       results.push({
-        'FAILURE': JSON.parse(promiseRes.body)?.message
+        'FAILURE': JSON.parse(res.body)?.message
       })
     }
   }
